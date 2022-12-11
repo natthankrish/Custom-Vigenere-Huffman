@@ -29,6 +29,7 @@ class Node:
     
 # Function/Procedure Declaration    
 def countCharacter(stringinput):
+    #To count character in in string input, returns dictionary with key character and value number of frequency
     chartable = dict()
 
     for charinput in stringinput:
@@ -40,6 +41,7 @@ def countCharacter(stringinput):
     return chartable
 
 def huffmanTreeCode(nodeTree, currentCode=''):
+    #To list all Huffman code results
     newCode = currentCode + str(nodeTree.code)
 
     if (nodeTree.left):
@@ -53,6 +55,7 @@ def huffmanTreeCode(nodeTree, currentCode=''):
     return listHuffmanCodes
 
 def outputHuffmanCode(stringinput, listHuffmanCodes):
+    #To output Huffman code results for stringinput
     encoding = []
     for charinput in stringinput:
         print(listHuffmanCodes[charinput], end='')
@@ -61,20 +64,24 @@ def outputHuffmanCode(stringinput, listHuffmanCodes):
     return string
 
 def totalGain(stringinput, listHuffmanCodes):
+    # To give brief infomation about Huffman code results status
+    # F.S. listHuffmanCodes contains dictionary of Huffman codes results
     original = len(stringinput)*8
     compressed = 0
     listchar = listHuffmanCodes.keys()
     for char in listchar:
         count = stringinput.count(char)
         compressed += count * len(listHuffmanCodes[char])
-    # print("before: ", original)
-    # print("after: ", compressed)
+    print("before: ", original)
+    print("after: ", compressed)
 
 def huffmanEncoding(stringinput):
+    # To process custom Huffman coding algorithm
     listcharfrequency = countCharacter(stringinput)
     listchar = listcharfrequency.keys()
     listfrequency = listcharfrequency.values()
 
+    # For Debugging Purposes
     # print("symbols: ", listchar)
     # print("frequency: ", listfrequency)
 
@@ -106,11 +113,14 @@ def huffmanEncoding(stringinput):
         huffmanTreeNode.append(newNodeTree)
 
     huffmanEncodingResult = huffmanTreeCode(huffmanTreeNode[0])
-    #print(huffmanEncodingResult)
-    totalGain(stringinput, huffmanEncodingResult)
-    #print("encoded output: ", outputHuffmanCode(stringinput, huffmanEncodingResult))
+
+    # For Debugging Purposes
+    # #print(huffmanEncodingResult)
+    # totalGain(stringinput, huffmanEncodingResult)
+    # #print("encoded output: ", outputHuffmanCode(stringinput, huffmanEncodingResult))
 
 def vigenereEncode(stringinput, password):
+    # To encrypt string input
     encodedText = ''
     for i in range (0, len(stringinput)):
         lengthHuffman = len(listHuffmanCodes[stringinput[i]])
@@ -126,6 +136,7 @@ def vigenereEncode(stringinput, password):
     return encodedText
 
 def vigenereDecode(decodedText, password):
+    # Check encrypted text to its original form
     originalText = ''
     for i in range (0, len(decodedText)):
         passwordchar = password[i%len(password)]
@@ -133,6 +144,7 @@ def vigenereDecode(decodedText, password):
         originalText += priorityList[key%len(priorityList)]
     return originalText
 
+# MAIN PROGRAM 
 passkey = input("Enter your password: ")
 stringinput = input("Enter your message: ")
 huffmanEncoding(stringinput)
